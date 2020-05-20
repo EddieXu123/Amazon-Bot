@@ -111,8 +111,6 @@ class AmazonBot:
         because I will forget to cancel it in a week and then get charged for 2 consecutive years like I have since 2018.
         To select the Free Shipping options with no Prime Student bind, choose the first button to the right of each product"""
 
-
-
         # Variable to keep track of the items that you are buying (separated by different shipping dates)
         group = bot.driver.find_elements_by_class_name('shipment')
         # We want to click on the the first 'radio-standard' button in our group
