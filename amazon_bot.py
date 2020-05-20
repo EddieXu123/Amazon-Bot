@@ -125,6 +125,7 @@ class AmazonBot:
         self.driver.find_elements_by_xpath('/html/body/div[5]/div[1]/div[2]/form/div/div/div/div[2]/div[2]/div/div[1]/span/span/input').click()
 
 
+# Call the bot
 bot = AmazonBot()
 bot.log_on()
 bot.purchase()
