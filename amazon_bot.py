@@ -1,4 +1,5 @@
 from selenium import webdriver
+import webdriver_manager.chrome
 from time import sleep
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
@@ -6,6 +7,8 @@ import pytesseract
 from PIL import Image
 import pyscreenshot as ImageGrab
 from log import email, password
+from pynput.keyboard import Key, Controller
+# pip install webdriver-manager  <-- Use this if your chromedriver is out of date
 
 
 # Method to screen shot the 6-digit SMS code Amazon sends to verify the user
@@ -35,7 +38,7 @@ def screen_shot():
 class AmazonBot:
     def __init__(self):
         # Create a browser we can play on
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(webdriver_manager.chrome.ChromeDriverManager().install())
 
     def log_on(self):
         """First, we must log into our Amazon account"""
@@ -99,6 +102,7 @@ class AmazonBot:
         # Once we have our cart filled out, we can check out
 
     def check_out(self):
+        keyboard = Controller()
         # Select your shopping cart
         self.driver.find_element_by_id('nav-cart-count').click()
         sleep(2)
@@ -120,6 +124,15 @@ class AmazonBot:
             sleep(3)
             # The interface will reload so we need to re-assign group
             group = self.driver.find_elements_by_class_name('shipment')
+
+        sleep(2)
+        # Reset the page so I can place order
+        keyboard.press(Key.cmd)
+        keyboard.press('r')
+        keyboard.release('r')
+        keyboard.release(Key.cmd)
+        sleep(5)
+        keyboard.press(Key.space)
 
         # Now, we have selected the cheapest options and can place our order
         self.driver.find_elements_by_xpath('/html/body/div[5]/div[1]/div[2]/form/div/div/div/div[2]/div[2]/div/div[1]/span/span/input').click()
